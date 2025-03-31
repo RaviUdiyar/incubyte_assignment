@@ -11,7 +11,6 @@ class StringCalculator
   end
 
   def numbers=(string)
-    p string
     @numbers = string_to_numbers(string)
   end
 
