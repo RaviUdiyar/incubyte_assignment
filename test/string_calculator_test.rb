@@ -13,12 +13,26 @@ class StringCalculatorTest < Minitest::Test
       ['//;\n1;2', 3],
       ['//;\n9;2', 11]
     ]
+    @assert_raises = [
+      ['1,-2', ArgumentError, 'negative numbers not allowed', [-2]],
+      ['1,2,3,-4', ArgumentError, 'negative numbers not allowed', [-4]],
+      ['-1,-2,3', ArgumentError, 'negative numbers not allowed', [-1, -2]]
+    ]
   end
 
   def test_add
     @test_cases.each do |input, expected|
       @calculator.numbers = input
       assert_equal expected, @calculator.add
+    end
+  end
+
+  def test_negative_numbers
+    @assert_raises.each do |input, expected, message, number|
+      @calculator.numbers = input
+      err = assert_raises(expected) { @calculator.add }
+      assert_includes err.message, message
+      assert_includes err.message, number.join(',')
     end
   end
 end

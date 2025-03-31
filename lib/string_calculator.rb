@@ -17,11 +17,21 @@ class StringCalculator
 
     result = 0
     i = 0
+    sign = 1
+    neg_numbers = []
     while i < @numbers.size
       char = @numbers[i]
+      if char == '-' || sign == -1
+        neg_numbers << "-#{@numbers[i + 1]}"
+        i += 1
+        next
+      end
+
       result += char.to_i unless delimiters.include?(char)
       i += 1
     end
+    raise ArgumentError, "negative numbers not allowed #{neg_numbers.join(',')}" if neg_numbers.any?
+
     result
   end
 
