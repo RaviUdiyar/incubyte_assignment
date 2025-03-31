@@ -17,9 +17,7 @@ class StringCalculator
     i = 0
     while i < @numbers.size
       char = @numbers[i]
-      next if char == ','
-
-      result += char.to_i
+      result += char.to_i if char != ','
       i += 1
     end
     result
