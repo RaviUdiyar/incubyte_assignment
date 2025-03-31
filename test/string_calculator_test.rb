@@ -4,10 +4,7 @@ require_relative '../lib/string_calculator'
 class StringCalculatorTest < Minitest::Test
   def setup
     @calculator = StringCalculator.new
-  end
-
-  def test_add
-    test_cases = [
+    @test_cases = [
       ['', 0],
       ['0', 0],
       ['1', 1],
@@ -16,7 +13,10 @@ class StringCalculatorTest < Minitest::Test
       ['//;\n1;2', 3],
       ['//;\n9;2', 11]
     ]
-    test_cases.each do |input, expected|
+  end
+
+  def test_add
+    @test_cases.each do |input, expected|
       @calculator.numbers = input
       assert_equal expected, @calculator.add
     end
