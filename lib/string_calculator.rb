@@ -4,43 +4,40 @@
 # Output: an integer, sum of the numbers
 # numbers: string input. example: "1,2,3" or "1\n2,3"
 class StringCalculator
-  DEFAULT_DELIMETERS = [',', '\n'].freeze
+  attr_reader :numbers
 
   def initialize
     @numbers = ''
   end
 
-  attr_writer :numbers
+  def numbers=(string)
+    p string
+    @numbers = string_to_numbers(string)
+  end
 
   def add
-    return 0 if @numbers.empty?
+    return 0 if numbers.empty?
 
     result = 0
-    i = 0
-    sign = 1
-    neg_numbers = []
-    while i < @numbers.size
-      char = @numbers[i]
-      if char == '-' || sign == -1
-        neg_numbers << "-#{@numbers[i + 1]}"
-        i += 1
-        next
-      end
-
-      result += char.to_i unless delimiters.include?(char)
-      i += 1
-    end
+    neg_numbers = numbers.select(&:negative?)
     raise ArgumentError, "negative numbers not allowed #{neg_numbers.join(',')}" if neg_numbers.any?
+
+    numbers.each do |number|
+      # Numbers bigger than 1000 should be ignored, so adding 2 + 1001 = 2
+      result += number if number <= 1000
+    end
 
     result
   end
 
-  def delimiters
-    if @numbers.start_with?('//')
-      @numbers = @numbers[2..]
-      [@numbers[0]] + DEFAULT_DELIMETERS
+  def string_to_numbers(string)
+    result = []
+    if string.start_with?('//')
+      string = string[2..]
+      result = string.split(/[\\n#{string[0]}]/)
     else
-      DEFAULT_DELIMETERS
+      result = string.split(/[\\n,]/)
     end
+    result.map(&:to_i).compact
   end
 end
