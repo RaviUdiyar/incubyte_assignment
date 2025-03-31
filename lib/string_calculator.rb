@@ -4,9 +4,11 @@
 # Output: an integer, sum of the numbers
 # numbers: string input. example: "1,2,3" or "1\n2,3"
 class StringCalculator
-  def initialize(numbers)
-    @numbers = numbers
+  def initialize
+    @numbers = ''
   end
+
+  attr_writer :numbers
 
   def add
     return 0 if @numbers.empty?
