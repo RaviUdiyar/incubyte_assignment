@@ -9,5 +9,17 @@ class StringCalculator
   end
 
   def add
+    return 0 if @numbers.empty?
+
+    result = 0
+    i = 0
+    while i < @numbers.size
+      char = @numbers[i]
+      next if char == ','
+
+      result += char.to_i
+      i += 1
+    end
+    result
   end
 end
